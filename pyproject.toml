@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "helix-helpdesk-agent"
+version = "0.1.0"
+description = "AI agent that auto-resolves Helix IT helpdesk tickets grounded in policy"
+authors = ["Preetham Myneni <preetham.myneni@ovaledge.com>"]
+readme = "README.md"
+packages = [{include = "agent"}, {include = "app"}, {include = "evals"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+anthropic = "*"
+fastapi = ">=0.111.0"
+uvicorn = {extras = ["standard"], version = "*"}
+pydantic = ">=2.7.0"
+pydantic-settings = ">=2.2.0"
+python-dotenv = "*"
+httpx = "*"
+chromadb = "*"
+jira = "*"
+tenacity = "*"
+structlog = "*"
+
+[tool.poetry.group.dev.dependencies]
+deepeval = "^4.0.4"
+pytest = "*"
+pytest-asyncio = "*"
+
+[tool.poetry.scripts]
+clean    = "scripts.clean:main"
+ingest   = "scripts.ingest_policies:main"
+serve    = "app.main:start"
+dev      = "app.main:dev"
+deepeval = "evals.runner:main"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests", "evals"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry-core.masonry.api"
